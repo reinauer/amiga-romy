@@ -1,0 +1,290 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title "A4K Romy replacement"
+Date "2020-08-29"
+Rev "A"
+Comp "https://amiga.technology/"
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 "Re-implementation of A4k ROMY"
+$EndDescr
+$Comp
+L amiga-chips:GAL22V10 IC1
+U 1 1 5F49FAF9
+P 6800 1550
+F 0 "IC1" H 7444 1641 50  0000 L CNN
+F 1 "GAL22V10" H 7444 1550 50  0000 L CNN
+F 2 "PLCC:PLCC-28" H 7444 1459 50  0000 L CNN
+F 3 "" H 4566 1320 50  0001 C CNN
+	1    6800 1550
+	1    0    0    -1
+$EndComp
+Wire Wire Line
+	6700 950  6700 850
+Wire Wire Line
+	6700 850  5250 850
+Wire Wire Line
+	5250 850  5250 3600
+Wire Wire Line
+	5250 3600 4800 3600
+Wire Wire Line
+	6600 950  6600 750
+Wire Wire Line
+	6600 750  2000 750
+Wire Wire Line
+	2000 750  2000 3200
+Wire Wire Line
+	2000 3200 2400 3200
+Wire Wire Line
+	6500 950  6500 650
+Wire Wire Line
+	6500 650  2600 650
+Wire Wire Line
+	2600 650  2600 3000
+Wire Wire Line
+	6200 1250 2700 1250
+Wire Wire Line
+	2700 1250 2700 3000
+Wire Wire Line
+	6200 1350 2800 1350
+Wire Wire Line
+	2800 1350 2800 3000
+Wire Wire Line
+	6200 1450 3000 1450
+Wire Wire Line
+	3000 1450 3000 3000
+Wire Wire Line
+	6200 1650 3100 1650
+Wire Wire Line
+	3100 1650 3100 3000
+Wire Wire Line
+	6200 1750 3200 1750
+Wire Wire Line
+	3200 1750 3200 3000
+Wire Wire Line
+	6200 1850 3300 1850
+Wire Wire Line
+	3300 1850 3300 3000
+Wire Wire Line
+	6500 2150 3400 2150
+Wire Wire Line
+	3400 2150 3400 3000
+Wire Wire Line
+	6600 2150 6600 2300
+Wire Wire Line
+	6600 2300 3500 2300
+Wire Wire Line
+	3500 2300 3500 3000
+Wire Wire Line
+	6900 2150 6900 6350
+Wire Wire Line
+	6900 6350 1650 6350
+Wire Wire Line
+	1650 6350 1650 4600
+Wire Wire Line
+	1650 4600 2400 4600
+Wire Wire Line
+	7000 2150 7000 6250
+Wire Wire Line
+	7000 6250 1550 6250
+Wire Wire Line
+	1550 6250 1550 4500
+Wire Wire Line
+	1550 4500 2400 4500
+Wire Wire Line
+	7100 2150 7100 6150
+Wire Wire Line
+	7100 6150 4600 6150
+Wire Wire Line
+	4600 6150 4600 5400
+Wire Wire Line
+	7400 1250 8400 1250
+Wire Wire Line
+	8400 1250 8400 2450
+Wire Wire Line
+	8400 2450 1850 2450
+Wire Wire Line
+	1850 2450 1850 3300
+Wire Wire Line
+	1850 3300 2400 3300
+Wire Wire Line
+	7400 1350 8500 1350
+Wire Wire Line
+	8500 1350 8500 2550
+Wire Wire Line
+	1750 2550 1750 3400
+Wire Wire Line
+	1750 3400 2400 3400
+Wire Wire Line
+	7400 1450 8600 1450
+Wire Wire Line
+	8600 1450 8600 2650
+Wire Wire Line
+	8600 2650 1650 2650
+Wire Wire Line
+	1650 2650 1650 3500
+Wire Wire Line
+	1650 3500 2400 3500
+$Comp
+L Jumper:SolderJumper_3_Open JP1
+U 1 1 5F4D260B
+P 7600 3250
+F 0 "JP1" H 7600 3363 50  0000 C CNN
+F 1 "SolderJumper_3_Open" H 7600 3364 50  0001 C CNN
+F 2 "Jumper:SolderJumper-3_P1.3mm_Open_Pad1.0x1.5mm_NumberLabels" H 7600 3250 50  0001 C CNN
+F 3 "~" H 7600 3250 50  0001 C CNN
+	1    7600 3250
+	1    0    0    -1
+$EndComp
+$Comp
+L Jumper:SolderJumper_3_Open JP2
+U 1 1 5F4D3919
+P 7650 4450
+F 0 "JP2" H 7650 4563 50  0000 C CNN
+F 1 "SolderJumper_3_Open" H 7650 4564 50  0001 C CNN
+F 2 "Jumper:SolderJumper-3_P1.3mm_Open_Pad1.0x1.5mm_NumberLabels" H 7650 4563 50  0001 C CNN
+F 3 "~" H 7650 4450 50  0001 C CNN
+	1    7650 4450
+	1    0    0    -1
+$EndComp
+Wire Wire Line
+	7600 3400 8700 3400
+Wire Wire Line
+	8700 3400 8700 1850
+Wire Wire Line
+	8700 1850 7400 1850
+$Comp
+L Device:C C1
+U 1 1 5F4D6FC1
+P 6100 3300
+F 0 "C1" H 6215 3346 50  0000 L CNN
+F 1 "0.1uF" H 6215 3255 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 6215 3209 50  0001 L CNN
+F 3 "~" H 6100 3300 50  0001 C CNN
+	1    6100 3300
+	1    0    0    -1
+$EndComp
+Wire Wire Line
+	3600 3000 3600 2750
+Wire Wire Line
+	6100 2750 6100 3150
+Wire Wire Line
+	3700 3000 3700 2850
+Wire Wire Line
+	3700 2850 5400 2850
+Wire Wire Line
+	5400 2850 5400 6000
+Wire Wire Line
+	5400 6000 3500 6000
+Wire Wire Line
+	3500 6000 3500 5400
+Wire Wire Line
+	4800 3300 5500 3300
+Wire Wire Line
+	5500 3300 5500 4800
+Wire Wire Line
+	5500 4800 7650 4800
+Wire Wire Line
+	7650 4800 7650 4600
+Text Notes 7450 4900 0    50   ~ 0
+~STERM\n
+Wire Wire Line
+	7100 950  7100 900
+Wire Wire Line
+	7100 900  8300 900
+Wire Wire Line
+	8300 900  8300 4200
+Wire Wire Line
+	8300 4200 7200 4200
+Wire Wire Line
+	7200 4200 7200 4450
+Wire Wire Line
+	7200 4450 7450 4450
+Wire Wire Line
+	2700 5400 2700 5850
+Wire Wire Line
+	2700 6500 1450 6500
+Wire Wire Line
+	1450 6500 1450 3700
+Wire Wire Line
+	1450 3700 2400 3700
+Wire Wire Line
+	7800 3250 8900 3250
+Wire Wire Line
+	8900 3250 8900 6500
+Wire Wire Line
+	8900 6500 2700 6500
+Connection ~ 2700 6500
+Wire Wire Line
+	5400 2850 5850 2850
+Wire Wire Line
+	5850 2850 5850 3650
+Wire Wire Line
+	5850 3650 6100 3650
+Wire Wire Line
+	6100 3650 6100 3450
+Connection ~ 5400 2850
+Wire Wire Line
+	6100 3650 6650 3650
+Wire Wire Line
+	6650 3650 6650 3250
+Wire Wire Line
+	6650 3250 7400 3250
+Connection ~ 6100 3650
+Wire Wire Line
+	6900 950  6900 800
+Wire Wire Line
+	6900 800  8800 800
+Wire Wire Line
+	8800 800  8800 3850
+Wire Wire Line
+	8800 3850 6100 3850
+Wire Wire Line
+	6100 3850 6100 3650
+Wire Wire Line
+	6700 2150 6700 2750
+Wire Wire Line
+	6700 5850 4400 5850
+Connection ~ 2700 5850
+Wire Wire Line
+	2700 5850 2700 6500
+Wire Wire Line
+	4400 5850 4400 5400
+Connection ~ 4400 5850
+Wire Wire Line
+	4400 5850 2700 5850
+Wire Wire Line
+	6100 2750 6700 2750
+Connection ~ 6700 2750
+Wire Wire Line
+	6700 2750 6700 5850
+Wire Wire Line
+	8500 2550 1750 2550
+Connection ~ 6100 2750
+Wire Wire Line
+	3600 2750 6100 2750
+Wire Wire Line
+	7000 950  7000 700
+Wire Wire Line
+	7000 700  9150 700
+Wire Wire Line
+	9150 700  9150 4450
+Wire Wire Line
+	9150 4450 7850 4450
+$Comp
+L amiga-chips:FAT_GARY IC2
+U 1 1 5F497FB6
+P 3600 4200
+F 0 "IC2" H 5269 4291 50  0000 L CNN
+F 1 "FAT_GARY" H 5269 4200 50  0000 L CNB
+F 2 "amiga-romy:PLCC-84_SMD-Socket_mirrored" H 5269 4109 50  0000 L CNN
+F 3 "" H 3600 4200 50  0001 C CNN
+	1    3600 4200
+	1    0    0    -1
+$EndComp
+$EndSCHEMATC
