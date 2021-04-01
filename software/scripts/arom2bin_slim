@@ -1,0 +1,36 @@
+#!/bin/sh
+
+if [ $# -ne 1 ]; then
+	echo "Usage: $0 kickstart.rom" >&2
+	echo "Will write kickstart.LO.bin and kickstart.HI.bin" >&2
+	exit 2
+fi
+
+romfile=$1
+outprefix=${romfile%%.rom}
+outLO=${outprefix}.LO.bin
+outHI=${outprefix}.HI.bin
+
+if [ ! -r "$romfile" ]; then
+	echo "Error reading file $romfile: $!" >&2
+	exit 3
+fi
+
+if [ -f "$outLO" -o -f "$outHI" ]; then
+	echo "One of outfiles $outLO or $outHI already exists" >&2
+	exit 4
+fi
+
+if ! tmpfile=$(mktemp); then
+	echo "Error writing temporary file" >&2
+	exit 5
+fi
+
+srec_cat "$romfile" -binary -split 4 0 2 -byteswap 2 -o $tmpfile -binary
+cat $tmpfile > $outHI
+srec_cat "$romfile" -binary -split 4 2 2 -byteswap 2 -o $tmpfile -binary
+cat $tmpfile > $outLO
+rm $tmpfile
+
+# the reverse operation would be (for 512k files):
+# srec_cat -o kick.rom -binary HI.bin -binary -unsplit 4 0 2 -byteswap LO.bin -binary -unsplit 4 2 2  -byteswap
