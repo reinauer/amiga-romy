@@ -6,8 +6,8 @@ This project aims at iterating and improving the existing Romy designs.
 
 # What it looks like
 
-![](collateral/a4k_romy_render.jpg =400x)
-![](collateral/a4k_romy_system.jpg =400x)
+<img src="collateral/a4k_romy_render.jpg" alt="ROMY rendered" width="400" height="277">
+<img src="collateral/a4k_romy_system.jpg" alt="ROMY in the system" width="400" height="300">
 
 # Credits
 
