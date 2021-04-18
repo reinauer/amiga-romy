@@ -70,6 +70,9 @@ The `logic` directory contains the contents for the GAL.
 Look in the `software` directory for a bunch of scripts to create a nice 1MB ROM
 image for you.
 
+There's also a small program to create parametrized PLCC plug footprints for
+KiCAD.
+
 # Credits
 
 Romy has been developed in the past by speedgeek and Cosmos. Anton Gale kept
