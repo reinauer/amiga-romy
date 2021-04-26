@@ -1,0 +1,8 @@
+fp-info-cache
+fp-lib-table
+sym-lib-table
+
+*-backups
+gerber
+
+.DS_Store
