@@ -67,5 +67,6 @@ some other means of triggering INT7)
  * Thanks to Guillaume Binet (RetroLab on YouTube) for the inspiration and doing
    all the ground work.
  * Thanks to highpuff for the ikod.se INT7 adapter.
+ * Thanks to faxm0dem for the awesome arom2bin tool.
  * Thanks to everybody in the Amiga community for keeping the Amiga Fever alive.
 

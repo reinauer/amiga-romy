@@ -1,51 +1,57 @@
-#!/bin/sh
+#!/bin/bash
+set -e
 
-
-# 3.1.4 rom looks like this for me:
-
-# exec_46.45(A4000_R2)
-# expansion_45.4(A4000)
-# bonus_40.1(A4000-46.143)
-# mathieeesingbas.lib_45.9
-# scsi.device_45.7(A4000)
-# audio.device_45.15
-# battclock.resource_45.1
-# battmem.res_39.2(46.143)
-# bootmenu_45.6
-# cia.resource_45.1
-# con-handler_40.2(46.143)
-# console.device_45.4
-# disk.resource_37.2(46.143)
-# dos.library_40.5
-# filesystem.resource_46.1
-# filesystem_46.13
-# graphics.lib_45.27
-# keymap.library_45.1
-# layers.library_45.30
-# mathffp.library_45.3
-# misc.resource_37.1(46.143)
-# potgo.resource_37.5
-# ram-handler_45.5
-# ramdrive_45.3
-# ramlib_45.1
-# input_45.2
-# shell_46.10
-# romboot_45.1
-# timer.device_45.1
-# trackdisk.device_45.1
-# utility.library_45.2
-# intuition.library_40.87
-# gadtools.library_40.5
-# wb_icon_45.194
-# wbtask_39.1
+# This script needs https://github.com/cnvogelg/amitools/pull/154
 
 BUILD=$PWD/build
 cd $BUILD
 
-FILES=AmigaOS-3.1.4-A4000
-KICKDIR=46.143_Hyperion\(A4000_R2\)
+AMIGA=$1
+case "$1" in
+  A1200)
+    FILES=AmigaOS-3.1.4-A1200
+    KICKFILE=kick.a1200.46.143
+    #KICKDIR=46.143_Hyperion\(A1200_R2\)
+    KICKDIR=46.143_Hyperion\(A1200\)
+    ;;
 
-romtool -q split $FILES/ROMs/unsplit_unswapped/kick.a4000.46.143 -o .
+  A3000)
+    FILES=AmigaOS-3.1.4-A3000
+    KICKFILE=kick.a3000.46.143
+    #KICKDIR=46.143_Hyperion\(A3000_R2\)
+    KICKDIR=46.143_Hyperion\(A3000\)
+    ;;
+
+  A4000T)
+    FILES=AmigaOS-3.1.4-A4000T
+    KICKFILE=kick.a4000t.46.143
+    KICKDIR=46.143_Hyperion\(A4000T_R2\)
+    ;;
+
+  A500) ;&
+  A600) ;&
+  A2000) ;&
+  A500/A600/A2000)
+    AMIGA=A500/A600/A2000
+    FILES=AmigaOS-3.1.4-A500
+    KICKFILE=kick.a500.46.143
+    KICKDIR=46.143_Hyperion\(A500-A2000_R2\)
+    ;;
+
+  A4000) ;&
+  *)
+    AMIGA=A4000
+    FILES=AmigaOS-3.1.4-A4000
+    KICKFILE=kick.a4000.46.143
+    KICKDIR=46.143_Hyperion\(A4000_R2\)
+    ;;
+
+esac
+FILES=AmigaOS-3.1.4-A4000
+NEWREV=46.144
+NEWKICK=$( echo kick.$AMIGA.$NEWREV | tr "A-Z" "a-z" |sed s,/,.,g)
+
+romtool -q split $FILES/ROMs/unsplit_unswapped/$KICKFILE -o .
 
 zcat $FILES/Update3.1.4.1/DEVS/audio.device.Z > $KICKDIR/audio.device_45.18
 zcat $FILES/Update3.1.4.1/L/FastFileSystem.Z > $KICKDIR/filesystem_46.20
@@ -62,29 +68,28 @@ rm $KICKDIR/filesystem_46.13
 rm $KICKDIR/shell_46.10
 rm $KICKDIR/intuition.library_40.87
 
-romtool -q build -o kick.a4000.46.144.pre -t kick -s 512 -r 46.144 46.143_Hyperion\(A4000_R2\)/index.txt
-
 # This is a 512KB ROM that works without ROMY:
-cp kick.a4000.46.144.pre kick.a4000.46.144-512kb.rom
+romtool -q build -o $NEWKICK-512kb -t kick -s 512 -r $NEWREV $KICKDIR/index.txt
 
 # Now patch for 1MB. This will cause the Amiga to yellow screen without ROMY:
-romtool -q patch -o kick.a4000.46.144.rom kick.a4000.46.144.pre 1mb_rom
+romtool -q patch -o $NEWKICK.rom $NEWKICK-512kb 1mb_rom
 
 # Cleanup
-rm kick.a4000.46.144.pre
 rm -r $KICKDIR
 
-romtool -q build -o extension.rom -t ext -f -r 46.144 hrtmodule $FILES/Install3_1_4/Libs/icon.library $FILES/Install3_1_4/Libs/workbench.library
+romtool -q build -o extension.rom -t ext -f -r $NEWREV hrtmodule $FILES/Install3_1_4/Libs/icon.library $FILES/Install3_1_4/Libs/workbench.library
 
-romtool -q combine kick.a4000.46.144.rom extension.rom -o kick.a4000.46.144.1mb.rom
+romtool -q combine $NEWKICK.rom extension.rom -o $NEWKICK.1mb.rom
 
-#./kickconv --split kick.a4000.46.144.1mb.rom kick_swapped
-#./kickconv --swap kick_swapped_hi kick_hi.rom
-#./kickconv --swap kick_swapped_lo kick_lo.rom
-
-../scripts/arom2bin_slim kick.a4000.46.144.1mb.rom
+if [ "$AMIGA" == "A500/A600/A2000" ]; then
+  srec_cat "$NEWKICK.1mb.rom" -binary -byteswap 2 -o $NEWKICK.1mb.bin -binary
+  printf "Write build/$NEWKICK.1mb.bin to one 27C800 chip (A500/A600/A2000).\n\n"
+else
+  srec_cat "$NEWKICK.1mb.rom" -binary -split 4 0 2 -byteswap 2 -o $NEWKICK.1mb.HI.bin -binary
+  srec_cat "$NEWKICK.1mb.rom" -binary -split 4 2 2 -byteswap 2 -o $NEWKICK.1mb.LO.bin -binary
+  printf "Write build/$NEWKICK.1mb.LO.bin and build/$NEWKICK.1mb.HI.bin to two 27C400 chips (A1200/A3000/A4000(T).\n"
+fi
 
 cd ..
 printf "You made it! It is done!\n\n"
-printf "Write build/kick.a4000.46.144.1mb.LO.bin and build/kick.a4000.46.144.1mb.HI.bin to to two 27C400 chips.\n\n"
 
