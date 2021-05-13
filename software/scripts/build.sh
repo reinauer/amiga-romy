@@ -20,21 +20,19 @@ case "$1" in
   A1200)
     FILES=AmigaOS-3.1.4-A1200
     KICKFILE=kick.a1200.${VERSION}
-    #KICKDIR=${VERSION}_Hyperion\(A1200_R2\)
-    KICKDIR=${VERSION}_Hyperion\(A1200\)
+    KICKDIR=${VERSION}_Hyperion\(A1200*\)
     ;;
 
   A3000)
     FILES=AmigaOS-3.1.4-A3000
     KICKFILE=kick.a3000.${VERSION}
-    #KICKDIR=${VERSION}_Hyperion\(A3000_R2\)
-    KICKDIR=${VERSION}_Hyperion\(A3000\)
+    KICKDIR=${VERSION}_Hyperion\(A3000*\)
     ;;
 
   A4000T)
     FILES=AmigaOS-3.1.4-A4000T
     KICKFILE=kick.a4000t.${VERSION}
-    KICKDIR=${VERSION}_Hyperion\(A4000T_R2\)
+    KICKDIR=${VERSION}_Hyperion\(A4000T*\)
     ;;
 
   A500) ;&
@@ -44,7 +42,7 @@ case "$1" in
     AMIGA=A500/A600/A2000
     FILES=AmigaOS-3.1.4-A500
     KICKFILE=kick.a500.${VERSION}
-    KICKDIR=${VERSION}_Hyperion\(A500-A2000_R2\)
+    KICKDIR=${VERSION}_Hyperion\(A500-A2000*\)
     ;;
 
   A4000) ;&
@@ -52,7 +50,7 @@ case "$1" in
     AMIGA=A4000
     FILES=AmigaOS-3.1.4-A4000
     KICKFILE=kick.a4000.${VERSION}
-    KICKDIR=${VERSION}_Hyperion\(A4000_R2\)
+    KICKDIR=${VERSION}_Hyperion\(A4000*\)
     ;;
 
 esac
@@ -88,6 +86,10 @@ case "$VERSION" in
     NEWKICK=$( echo kick.$AMIGA.$NEWREV | tr "A-Z" "a-z" |sed s,/,.,g)
 
     romtool -q split $DEST/ROMs/unsplit_unswapped/$KICKFILE -o .
+
+    # These different revisions are a mess. Hack alert.
+    mv $KICKDIR $NEWREV
+    KICKDIR=$NEWREV
 
     zcat $DEST/Update3.1.4.1/DEVS/audio.device.Z > $KICKDIR/audio.device_45.18
     zcat $DEST/Update3.1.4.1/L/FastFileSystem.Z > $KICKDIR/filesystem_46.20
