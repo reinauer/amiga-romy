@@ -106,7 +106,7 @@ DEST=$PWD/$FILES
 # Define list of additional modules
 #
 MODULES=
-MODULES="$MODULES hrtmodule"
+MODULES="$MODULES hrtmon/hrtmodule"
 if [ $VERSION == 46.143 -o $VERSION == 46.160 ]; then
   MODULES="$MODULES $DEST/Install3_1_4/Libs/icon.library"
   MODULES="$MODULES $DEST/Install3_1_4/Libs/workbench.library"

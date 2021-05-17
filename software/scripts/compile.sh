@@ -28,24 +28,23 @@ else
 fi
 
 printf "Compressing hrtmon data... "
-if [ -r $BUILD/hrtmon.data.rnc ]; then
+if [ -r $BUILD/hrtmon/hrtmon.data.rnc ]; then
   printf "cached.\n"
 else
-  rnc_propack_source-master/rnc64 p hrtmon/HRTmon.data hrtmon.data.rnc -m=1 > /dev/null
+  rnc_propack_source-master/rnc64 p hrtmon/HRTmon.data hrtmon/hrtmon.data.rnc -m=1 > /dev/null
   printf "ok.\n"
 fi
 
 VERSION="$( strings hrtmon/HRTmon.data |grep \$VER|cut -d\  -f3- )"
 printf "Compiling HRTmodule $VERSION... "
 
-if [ -r $BUILD/hrtmodule ]; then
+if [ -r $BUILD/hrtmon/hrtmodule ]; then
   printf "cached.\n"
 else
+  cp ../src/hrtmodule.s hrtmon
+  sed -i s,VERSION,"$VERSION", hrtmon/hrtmodule.s
 
-  cp ../src/hrtmodule.s .
-  sed -i s,VERSION,"$VERSION", hrtmodule.s
-
-  vasm/vasmm68k_mot -m68020 -Fhunkexe -o hrtmodule hrtmodule.s > /dev/null
+  vasm/vasmm68k_mot -m68020 -Fhunkexe -o hrtmon/hrtmodule hrtmon/hrtmodule.s > /dev/null
 
   printf "ok.\n"
 fi
