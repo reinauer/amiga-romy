@@ -1,32 +1,53 @@
 #!/bin/bash
 
 # set -e
-# gh repo clone lab313ru/rnc_propack_source
 BUILD=$PWD/build
 
+cd $BUILD
+
 printf "Compiling vasm... "
-cd $BUILD/vasm
-make -s CPU=m68k SYNTAX=mot
-cd ..
-printf "ok.\n"
+if [ -r $BUILD/vasm/vasmm68k_mot ]; then
+  printf "cached.\n"
+else
+  cd $BUILD/vasm
+  make -s CPU=m68k SYNTAX=mot
+  cd ..
+  printf "ok.\n"
+fi
 
 printf "Compiling rnc_propack_source... "
-cd rnc_propack_source
-make -s 2>/dev/null
-cd ..
-printf "ok.\n"
+if [ -r $BUILD/rnc_propack_source-master/rnc64 ]; then
+  printf "cached.\n"
+else
+  cd rnc_propack_source-master
+  make -s 2>/dev/null
+  cd ..
+  # if we recompiled rnc64, remove existing files
+  rm -f hrtmon.data.rnc
+  printf "ok.\n"
+fi
 
 printf "Compressing hrtmon data... "
-rnc_propack_source/rnc64 p hrtmon/HRTmon.data hrtmon.data.rnc -m=1 > /dev/null
-printf "ok.\n"
+if [ -r $BUILD/hrtmon.data.rnc ]; then
+  printf "cached.\n"
+else
+  rnc_propack_source-master/rnc64 p hrtmon/HRTmon.data hrtmon.data.rnc -m=1 > /dev/null
+  printf "ok.\n"
+fi
 
-
-printf "Compiling HRTmodule... "
 VERSION="$( strings hrtmon/HRTmon.data |grep \$VER|cut -d\  -f3- )"
+printf "Compiling HRTmodule $VERSION... "
 
-cp ../src/hrtmodule.s .
-sed -i s,VERSION,"$VERSION", hrtmodule.s
+if [ -r $BUILD/hrtmodule ]; then
+  printf "cached.\n"
+else
 
-vasm/vasmm68k_mot -m68020 -Fhunkexe -o hrtmodule hrtmodule.s > /dev/null
+  cp ../src/hrtmodule.s .
+  sed -i s,VERSION,"$VERSION", hrtmodule.s
 
-printf "ok.\n"
+  vasm/vasmm68k_mot -m68020 -Fhunkexe -o hrtmodule hrtmodule.s > /dev/null
+
+  printf "ok.\n"
+fi
+cd ..
+
