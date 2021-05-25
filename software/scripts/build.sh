@@ -17,6 +17,11 @@ AMIGA=$1
 #VERSION=46.160
 #VERSION=46.143
 VERSION=$2
+VERSION=${VERSION:-"47.96"}
+
+# Lower case...
+SIZE=`echo $3|tr "A-Z" "a-z"`
+SIZE=${SIZE:-"1mb"}
 
 case "$VERSION" in
   46.143) ;&
@@ -178,9 +183,10 @@ esac
 # Patching the main rom for 1MB support
 #
 
-# TODO: What does this look like for 4MB support?
-# Now patch for 1MB. This will cause the Amiga to yellow screen without ROMY:
-romtool -q patch -o $VERSION/$NEWKICK.rom $VERSION/$NEWKICK-512kb 1mb_rom
+# Now patch for larger size. This will cause the Amiga to yellow screen without ROMY:
+PATCH=${SIZE}_rom
+test $SIZE = "2mb" && PATCH=4mb_rom
+romtool -q patch -o $VERSION/$NEWKICK.rom $VERSION/$NEWKICK-512kb ${PATCH}
 
 # Cleanup
 if [ -x $KICKDIR ]; then
@@ -191,21 +197,26 @@ fi
 # Build the extended ROM image with additional modules
 #
 
-romtool -q build -o $VERSION/extension.rom -t ext -f -r $NEWREV $MODULES
+test $SIZE = "1mb" && EXTSIZE=512
+test $SIZE = "2mb" && EXTSIZE=1536
+test $SIZE = "4mb" && EXTSIZE=3584
 
-romtool -q combine $VERSION/$NEWKICK.rom $VERSION/extension.rom -o $VERSION/$NEWKICK.1mb.rom
+romtool -q build -o $VERSION/extension.rom -t ext -s $EXTSIZE -f -r $NEWREV $MODULES
+
+romtool -q combine $VERSION/$NEWKICK.rom $VERSION/extension.rom -o $VERSION/$NEWKICK.$SIZE.rom
 
 #
 # Create programmable image
 #
 
+# FIXME A500 can not do 4MB
 if [ "$AMIGA" == "A500/A600/A2000" ]; then
-  srec_cat "$VERSION/$NEWKICK.1mb.rom" -binary -byteswap 2 -o $VERSION/$NEWKICK.1mb.bin -binary
-  printf "Success! Now write build/$VERSION/$NEWKICK.1mb.bin to one 27C800 chip ($AMIGA).\n\n"
+  srec_cat "$VERSION/$NEWKICK.$SIZE.rom" -binary -byteswap 2 -o $VERSION/$NEWKICK.$SIZE.bin -binary
+  printf "Success! Now write build/$VERSION/$NEWKICK.$SIZE.bin to one 27C800/ chip ($AMIGA).\n\n"
 else
-  srec_cat "$VERSION/$NEWKICK.1mb.rom" -binary -split 4 0 2 -byteswap 2 -o $VERSION/$NEWKICK.1mb.HI.bin -binary
-  srec_cat "$VERSION/$NEWKICK.1mb.rom" -binary -split 4 2 2 -byteswap 2 -o $VERSION/$NEWKICK.1mb.LO.bin -binary
-  printf "Success! Now write build/$VERSION/$NEWKICK.1mb.LO.bin and build/$VERSION/$NEWKICK.1mb.HI.bin to two 27C400 chips ($AMIGA).\n\n"
+  srec_cat "$VERSION/$NEWKICK.$SIZE.rom" -binary -split 4 0 2 -byteswap 2 -o $VERSION/$NEWKICK.$SIZE.HI.bin -binary
+  srec_cat "$VERSION/$NEWKICK.$SIZE.rom" -binary -split 4 2 2 -byteswap 2 -o $VERSION/$NEWKICK.$SIZE.LO.bin -binary
+  printf "Success! Now write build/$VERSION/$NEWKICK.$SIZE.LO.bin and build/$VERSION/$NEWKICK.$SIZE.HI.bin to two 27C400(1M)/27C160(4M) chips ($AMIGA).\n\n"
 fi
 
 cd ..
