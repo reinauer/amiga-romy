@@ -59,7 +59,6 @@ over the components.
 
 This design is barely wider than Fat Agnus itself and adds the same
 functionality as the other ROMYs with minimal impact.
-**This design is untested**
 
 # Logic
 
