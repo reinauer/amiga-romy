@@ -137,6 +137,15 @@ if [ $AMIGA == A1200 -a $HAVE_TF1260 == 1 ]; then
   MODULES="$MODULES $DEST/ehide.device"
 fi
 
+if [ -r ../archives/romdisk.device_rel ]; then
+  HAVE_ROMDISK=1
+  cp ../archives/romdisk.device_rel $DEST/romdisk.device
+  cp ../archives/romdisk.rodi $DEST
+  MODULES="$MODULES $DEST/romdisk.device $DEST/romdisk.rodi"
+else
+  HAVE_ROMDISK=0
+fi
+
 #
 # Updating the main rom
 #
