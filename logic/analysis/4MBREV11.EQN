@@ -1,0 +1,36 @@
+; JED2EQN -- JEDEC file to Boolean Equations disassembler (Version V063)
+; Copyright (c) National Semiconductor Corporation 1990-1993
+; Disassembled from 4MBREV11.JED. Date: 5-27-121
+
+chip 4MBREV11 GAL22V10
+
+CLK=1 i2=2 i3=3 i4=4 i5=5 i6=6 i7=7 i8=8 i9=9 i10=10 i11=11 GND=12 
+i13=13 f14=14 o15=15 f16=16 f17=17 f18=18 f22=22 f23=23 VCC=24 
+
+@ues 524f4d5900000000
+
+equations
+
+
+/f23 := f23 * f22 * /f18 * f17 * /f14
+f23.oe = /f23 * /f14
+/f22 := f23 * f22 * f18 * /f14
+    + f23 * f22 * f18 * /f17
+    + f23 * /i2 * f22 * /i3 * i4 * /i5 * /i6 * /i7 * /f17 * /i8 * /f16
+      * /i9 * /i10 * /f14 * /i11
+f22.oe = /f22 * /f14
+f18 := /f23 * f22 * /f18 * /f17 * /f14
+    + /i2 * f22 * /i3 * i4 * /i5 * /i6 * /f18 * /i7 * /f17 * /i8 * f16
+      * /i9 * /i10 * /f14 * /i11
+f18.oe = vcc
+f17 := f23 * /f22 * /f18 * /f17 * /f14
+    + /f23 * f22 * /f18 * /f17 * /f14
+f17.oe = vcc
+/f16 = gnd
+f16.oe = gnd
+/o15 = /i2 * /i3 * i4 * /i5 * /i6 * /i7 * /i8 * /i9 * /i10 * /f14 * /i11
+      * i13
+o15.oe = /i2 * /i3 * i4 * /i5 * /i6 * /i7 * /i8 * /i9 * /i10 * /f14 * /i11
+      * i13
+/f14 = gnd
+f14.oe = gnd

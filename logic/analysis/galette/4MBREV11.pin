@@ -1,0 +1,29 @@
+
+
+ Pin # | Name     | Pin Type
+-----------------------------
+   1   | CLK90    | Clock/Input
+   2   | A22      | Input
+   3   | A23      | Input
+   4   | A24      | Input
+   5   | A25      | Input
+   6   | A26      | Input
+   7   | A27      | Input
+   8   | A28      | Input
+   9   | A29      | Input
+  10   | A30      | Input
+  11   | A31      | Input
+  12   | GND      | GND
+  13   | RW       | Input
+  14   | AS       | Output
+  15   | ROMEN    | Output
+  16   | SPEED    | Output
+  17   | REG2     | Output
+  18   | REG1     | Output
+  19   | X19      | NC
+  20   | X20      | NC
+  21   | X21      | NC
+  22   | STERM    | Output
+  23   | DSTERM   | Output
+  24   | VCC      | VCC
+
