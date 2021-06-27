@@ -138,6 +138,7 @@ if [ $AMIGA == A1200 -a $HAVE_TF1260 == 1 ]; then
 fi
 
 if [ -r ../archives/romdisk.device_rel ]; then
+  echo "Warning: Will be building with romdisk.device."
   HAVE_ROMDISK=1
   cp ../archives/romdisk.device_rel $DEST/romdisk.device
   cp ../archives/romdisk.rodi $DEST
@@ -151,6 +152,7 @@ fi
 for MOD in $PWD/../modules/*; do
 	MODULES="$MODULES $($MOD build)"
 done
+# echo $MODULES
 
 #
 # Updating the main rom
@@ -218,9 +220,9 @@ test $SIZE = "1mb" && EXTSIZE=512
 test $SIZE = "2mb" && EXTSIZE=1536
 test $SIZE = "4mb" && EXTSIZE=3584
 
-romtool -q build -o $VERSION/extension.rom -t ext -s $EXTSIZE -f -r $NEWREV $MODULES
+romtool build -o $VERSION/extension.rom -t ext -s $EXTSIZE -f -r $NEWREV $MODULES
 
-romtool -q combine $VERSION/$NEWKICK.rom $VERSION/extension.rom -o $VERSION/$NEWKICK.$SIZE.rom
+romtool combine $VERSION/$NEWKICK.rom $VERSION/extension.rom -o $VERSION/$NEWKICK.$SIZE.rom
 
 #
 # Create programmable image

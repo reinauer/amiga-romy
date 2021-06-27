@@ -63,7 +63,7 @@ unzip -qqo $ARCHIVES/rnc_propack_source.zip
 printf " ok\n"
 
 # Modules
-for MOD in $PWD/modules/*; do
+for MOD in $PWD/../modules/*; do
 	$MOD unpack
 done
 
