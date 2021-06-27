@@ -25,7 +25,7 @@ all: kickstart
 kickstart: prep
 	@for TARGET in $(TARGETS) ; do \
 		for SIZE in $(SIZES); do \
-			echo "Doing $$TARGET" ; \
+			echo "Processing Kickstart $(VERSION) for $$TARGET ($$SIZE)" ; \
 			scripts/build.sh $$TARGET $(VERSION) $$SIZE ; \
 		done ; \
 	done
