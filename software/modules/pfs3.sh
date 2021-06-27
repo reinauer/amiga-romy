@@ -1,18 +1,19 @@
 #!/bin/bash
 #
-# Explode-7 library
+# Toni Wilen's PFS3 All-In-One
 # More information:
-# https://aminet.net/package/util/libs/explode-7
+# https://aminet.net/package/disk/misc/pfs3aio
 #
 
 . $( dirname $0 )/../scripts/functions.sh
 
-is_enabled LIBRARY_EXPLODE || exit 0
+is_enabled FILESYSTEM_PFS3 || exit 0
 
-URL="https://aminet.net/util/libs/explode-7.lha"
-FILE="explode-7.lha"
-MODULE=explode.library
-NAME="Explode 7"
+URL="http://aminet.net/disk/misc/pfs3aio.lha"
+FILE="pfs3aio.lha"
+MODULE="pfs3aio"
+# What about pfs3aio-custom?
+NAME="PFS3AIO"
 
 CMD=$1
 case "$CMD" in

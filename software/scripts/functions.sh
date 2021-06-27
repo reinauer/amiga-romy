@@ -1,3 +1,4 @@
+#!/bin/bash
 
 # Downloading functions
 
@@ -10,10 +11,19 @@
 # See from where we're calling with the scripts
 # directory because archives might or might not be there yet.
 if [ -d $PWD/scripts ]; then
-  ARCHIVES=$PWD/archives
+  TOP=$( realpath $PWD )
 elif [ -d $PWD/../scripts ]; then
-  ARCHIVES=$PWD/../archives
+  TOP=$( realpath $PWD/.. )
 fi
+
+ARCHIVES=$TOP/archives
+
+if [ ! -r $TOP/amiga-romy.conf ];
+then
+   echo "ERROR: amiga-romy.conf not found."
+   exit 1
+fi
+. $TOP/amiga-romy.conf
 
 gather_file()
 {
@@ -89,5 +99,21 @@ unpack_adfs()
     printf " ok\n"
     #cd ..
   done
+}
+
+# config handling
+#
+
+is_enabled()
+{
+  VAR=CONFIG_$1
+  if [ "${!VAR}" == "" ]; then
+    echo "ERROR: config option $VAR does not exist."
+    return 1
+  fi
+  if [ "${!VAR}" = "y" -o "${!VAR}" = "Y" ];  then
+    return 0
+  fi
+  return 1
 }
 

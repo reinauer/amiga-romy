@@ -1,18 +1,18 @@
 #!/bin/bash
 #
-# Explode-7 library
+# Microsoft NTFS
 # More information:
-# https://aminet.net/package/util/libs/explode-7
+# https://aminet.net/package/disk/misc/ntfs_0.9
 #
 
 . $( dirname $0 )/../scripts/functions.sh
 
-is_enabled LIBRARY_EXPLODE || exit 0
+is_enabled FILESYSTEM_NTFS || exit 0
 
-URL="https://aminet.net/util/libs/explode-7.lha"
-FILE="explode-7.lha"
-MODULE=explode.library
-NAME="Explode 7"
+URL="http://aminet.net/disk/misc/ntfs_0.9.lha"
+FILE="ntfs_0.9.lha"
+MODULE="NTFileSystem/AmigaOS/NTFileSystem"
+NAME="NTFileSystem"
 
 CMD=$1
 case "$CMD" in

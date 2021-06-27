@@ -1,18 +1,18 @@
 #!/bin/bash
 #
-# Explode-7 library
+# Smart Filesystem
 # More information:
-# https://aminet.net/package/util/libs/explode-7
+# https://aminet.net/package/disk/misc/SFS
 #
 
 . $( dirname $0 )/../scripts/functions.sh
 
-is_enabled LIBRARY_EXPLODE || exit 0
+is_enabled FILESYSTEM_SFS || exit 0
 
-URL="https://aminet.net/util/libs/explode-7.lha"
-FILE="explode-7.lha"
-MODULE=explode.library
-NAME="Explode 7"
+URL="http://aminet.net/disk/misc/SFS.lha"
+FILE="SFS.lha"
+MODULE="Smartfilesystem/AmigaOS3.x/L/SmartFilesystem"
+NAME="SmartFileSystem"
 
 CMD=$1
 case "$CMD" in

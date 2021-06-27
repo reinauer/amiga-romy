@@ -1,13 +1,14 @@
-#!/bin/sh
+#!/bin/bash
+
+. $( dirname $0 )/functions.sh
 
 printf "Gathering all files... "
 
 # Point this directory to the place where you downloaded
 # your Amiga OS files:
 
-FILES=$HOME/Downloads
 
-. $( dirname $0 )/functions.sh
+FILES=$HOME/Downloads
 
 mkdir -p archives
 

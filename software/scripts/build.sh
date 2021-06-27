@@ -125,16 +125,15 @@ if [ $VERSION == 47.96 ]; then
   # TODO option for old intuition.library?
 fi
 
-if [ -r ../archives/ehide.device ]; then
+if [ -r ehide.device ]; then
   HAVE_TF1260=1
-  cp ../archives/ehide.device $DEST
 else
   HAVE_TF1260=0
 fi
 
 if [ $AMIGA == A1200 -a $HAVE_TF1260 == 1 ]; then
   echo "Warning: Will be building with ehide.device."
-  MODULES="$MODULES $DEST/ehide.device"
+  MODULES="$MODULES ehide.device"
 fi
 
 if [ -r ../archives/romdisk.device_rel ]; then
@@ -152,7 +151,7 @@ fi
 for MOD in $PWD/../modules/*; do
 	MODULES="$MODULES $($MOD build)"
 done
-# echo $MODULES
+#echo $MODULES
 
 #
 # Updating the main rom

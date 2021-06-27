@@ -1,11 +1,10 @@
-#!/bin/sh
+#!/bin/bash
 
 
 BUILD=$PWD/build
 ARCHIVES=$PWD/archives
 
 mkdir -p $BUILD
-
 . $( dirname $0 )/functions.sh
 
 mkdir -p $BUILD/AmigaOS-3.1.4

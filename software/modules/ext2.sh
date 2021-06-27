@@ -1,18 +1,18 @@
 #!/bin/bash
 #
-# Explode-7 library
+# Linux EXT2 Filesystem
 # More information:
-# https://aminet.net/package/util/libs/explode-7
+# https://aminet.net/package/disk/misc/ext2fs_0.41
 #
 
 . $( dirname $0 )/../scripts/functions.sh
 
-is_enabled LIBRARY_EXPLODE || exit 0
+is_enabled FILESYSTEM_EXT2 || exit 0
 
-URL="https://aminet.net/util/libs/explode-7.lha"
-FILE="explode-7.lha"
-MODULE=explode.library
-NAME="Explode 7"
+URL="http://aminet.net/disk/misc/ext2fs_0.41.lha"
+FILE="ext2fs_0.41.lha.lha"
+MODULE="EXT2FileSystem/AmigaOS/Ext2FileSystem"
+NAME="SmartFileSystem"
 
 CMD=$1
 case "$CMD" in

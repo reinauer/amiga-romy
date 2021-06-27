@@ -1,18 +1,19 @@
 #!/bin/bash
 #
-# Explode-7 library
+# BSD FastFileSystem support by Chris Hooper
 # More information:
-# https://aminet.net/package/util/libs/explode-7
+# https://aminet.net/package/disk/misc/bffs16_src
 #
 
 . $( dirname $0 )/../scripts/functions.sh
 
-is_enabled LIBRARY_EXPLODE || exit 0
+is_enabled FILESYSTEM_BSDFFS || exit 0
 
-URL="https://aminet.net/util/libs/explode-7.lha"
-FILE="explode-7.lha"
-MODULE=explode.library
-NAME="Explode 7"
+URL="http://aminet.net/disk/misc/bffs16_src.lha"
+FILE="bffs16_src.lha"
+MODULE="bffs_1.6/l/BFFSFilesystem"
+# FIXME or is it BFFSFilesystem.robe?
+NAME="Berkeley Fast File System"
 
 CMD=$1
 case "$CMD" in
