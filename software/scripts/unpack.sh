@@ -6,50 +6,7 @@ ARCHIVES=$PWD/archives
 
 mkdir -p $BUILD
 
-unpack_AmigaOS314()
-{
-  AMIGA=$1
-
-  if [ $AMIGA = archive ]; then
-    if [ -r $HOME/Downloads/ROMs/unsplit_unswapped ]; then
-      echo " * Found test archive, pre-populating..."
-      cp -a $HOME/Downloads/ROMs/unsplit_unswapped/* \
-		$BUILD/AmigaOS-3.1.4/ROMs/unsplit_unswapped
-    fi
-    return
-  fi
-
-  if [ ! -r $ARCHIVES/AmigaOS-3.1.4-$AMIGA.zip ]; then
-    echo " * AmigaOS 3.1.4 $AMIGA files not found, skipping"
-    return
-  fi
-
-  printf " * Unzipping AmigaOS 3.1.4 ($AMIGA) ..."
-  mkdir -p $BUILD/AmigaOS-3.1.4-$AMIGA
-  cd $BUILD/AmigaOS-3.1.4-$AMIGA
-  unzip -qq  $ARCHIVES/AmigaOS-3.1.4-$AMIGA.zip
-
-  cp -a $BUILD/AmigaOS-3.1.4-$AMIGA/ROMs/unsplit_unswapped/* \
-	 $BUILD/AmigaOS-3.1.4/ROMs/unsplit_unswapped
-  cp -a $BUILD/AmigaOS-3.1.4-$AMIGA/Install3_1_4.adf $BUILD/AmigaOS-3.1.4/
-  cd ..
-  rm -rf $BUILD/AmigaOS-3.1.4-$AMIGA
-  printf " ok\n"
-}
-
-unpack_adfs()
-{
-  for ADF in *.adf
-  do
-    rm -rf ${ADF%.adf}
-    mkdir  ${ADF%.adf}
-    #cd  ${ADF%.adf}
-    printf "   * Unpacking ${ADF%.adf} ..."
-    unadf $ADF -d ${ADF%.adf} > /dev/null 2>&1
-    printf " ok\n"
-    #cd ..
-  done
-}
+. $( dirname $0 )/functions.sh
 
 mkdir -p $BUILD/AmigaOS-3.1.4
 mkdir -p $BUILD/AmigaOS-3.1.4/ROMs/unsplit_unswapped
@@ -104,6 +61,11 @@ printf " * Unpacking rnc_propack_source ..."
 unzip -qqo $ARCHIVES/rnc_propack_source.zip
 #mv rnc_propack_source-master rnc_propack_source
 printf " ok\n"
+
+# Modules
+for MOD in $PWD/modules/*; do
+	$MOD unpack
+done
 
 cd ..
 

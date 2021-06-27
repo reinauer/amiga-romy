@@ -146,6 +146,12 @@ else
   HAVE_ROMDISK=0
 fi
 
+# Modules
+
+for MOD in $PWD/../modules/*; do
+	MODULES="$MODULES $($MOD build)"
+done
+
 #
 # Updating the main rom
 #
