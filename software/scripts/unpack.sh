@@ -61,6 +61,10 @@ unzip -qqo $ARCHIVES/rnc_propack_source.zip
 #mv rnc_propack_source-master rnc_propack_source
 printf " ok\n"
 
+printf " * Unpacking ehide.device ..."
+tar xzf $ARCHIVES/ehide.tar.gz
+printf " ok\n"
+
 # Modules
 for MOD in $PWD/../modules/*; do
 	$MOD unpack
