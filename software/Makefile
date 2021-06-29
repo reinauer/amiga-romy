@@ -54,19 +54,13 @@ $(OUT)/.compile: scripts/compile.sh $(OUT)/.unpack
 
 all-roms-3.1.4: prep
 	rm -rf build/46.143_Hyperion\(A*
-	@for TARGET in $(TARGETS) ; do \
-		scripts/build.sh $(TARGET) 46.143 ; \
-	 done
+	$(MAKE) kickstart VERSION=46.143 TARGETS="A500 A1200 A3000 A4000 A4000T" SIZES="1mb 2mb 4mb"
 
 all-roms-3.1.4.1:
-	@for TARGET in $(TARGETS) ; do \
-		scripts/build.sh $(TARGET) 46.160 ; \
-	 done
+	$(MAKE) kickstart VERSION=46.160 TARGETS="A500 A1200 A3000 A4000 A4000T" SIZES="1mb 2mb 4mb"
 
 all-roms-3.2:
-	@for TARGET in $(TARGETS) ; do \
-		scripts/build.sh $(TARGET) 47.96 ; \
-	 done
+	$(MAKE) kickstart VERSION=47.96 TARGETS="A500 A1200 A3000 A4000 A4000T" SIZES="1mb 2mb 4mb"
 
 all-roms: all-roms-3.1.4 all-roms-3.1.4.1 all-roms-3.2
 
