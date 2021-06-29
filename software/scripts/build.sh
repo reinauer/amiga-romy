@@ -228,13 +228,21 @@ romtool combine $VERSION/$NEWKICK.rom $VERSION/extension.rom -o $VERSION/$NEWKIC
 #
 
 # FIXME A500 can not do 4MB
-if [ "$AMIGA" == "A500/A600/A2000" ]; then
+if [ "$AMIGA" == "A500/A600/A2000" -o "$AMIGA" = "CDTV/A500/A600/A1000/A2000" ]; then
+  test $SIZE = "1mb" && CHIP="27C800"
+  test $SIZE = "2mb" && CHIP="MX29F1615(unsupported)"
+  test $SIZE = "4mb" && CHIP="29F320(unsupported)"
+
   srec_cat "$VERSION/$NEWKICK.$SIZE.rom" -binary -byteswap 2 -o $VERSION/$NEWKICK.$SIZE.bin -binary
-  printf "Success! Now write build/$VERSION/$NEWKICK.$SIZE.bin to one 27C800/ chip ($AMIGA).\n\n"
+  printf "Success! Now write build/$VERSION/$NEWKICK.$SIZE.bin to one $CHIP chip ($AMIGA).\n\n"
 else
+  test $SIZE = "1mb" && CHIP="27C400"
+  test $SIZE = "2mb" && CHIP="27C800"
+  test $SIZE = "4mb" && CHIP="27C160/MX29F1615"
+
   srec_cat "$VERSION/$NEWKICK.$SIZE.rom" -binary -split 4 0 2 -byteswap 2 -o $VERSION/$NEWKICK.$SIZE.HI.bin -binary
   srec_cat "$VERSION/$NEWKICK.$SIZE.rom" -binary -split 4 2 2 -byteswap 2 -o $VERSION/$NEWKICK.$SIZE.LO.bin -binary
-  printf "Success! Now write build/$VERSION/$NEWKICK.$SIZE.LO.bin and build/$VERSION/$NEWKICK.$SIZE.HI.bin to two 27C400(1M)/27C160(4M) chips ($AMIGA).\n\n"
+  printf "Success! Now write build/$VERSION/$NEWKICK.$SIZE.LO.bin and build/$VERSION/$NEWKICK.$SIZE.HI.bin to two $CHIP chips ($AMIGA).\n\n"
 fi
 
 cd ..
