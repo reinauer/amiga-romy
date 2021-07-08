@@ -7,7 +7,6 @@ printf "Gathering all files... "
 # Point this directory to the place where you downloaded
 # your Amiga OS files:
 
-
 FILES=$HOME/Downloads
 
 mkdir -p archives
@@ -21,14 +20,8 @@ gather_file AmigaOS-3.1.4.1-Update.zip
 gather_file AmigaOS3.2CD.iso
 gather_file kick_3.1.4.1.zip
 
-# For Terrible Fire TF1260
-echo "Looking for TF1260 drivers"
-gather_file_online ehide.tar.gz "https://wordpress.hertell.nu/files/ehide_d2874a8.tar.gz"
-
 # Other stuff
-echo "Looking for other files"
-
-# Additional Libraries
+echo "Looking for add-on modules"
 
 for MOD in $PWD/modules/*; do
 	$MOD download
