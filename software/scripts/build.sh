@@ -9,6 +9,8 @@ set -e
 # This script needs the latest github version of amitools
 # (with https://github.com/cnvogelg/amitools/pull/154 merged)
 
+. $( dirname $0 )/functions.sh
+
 BUILD=$PWD/build
 cd $BUILD
 
@@ -111,7 +113,6 @@ DEST=$PWD/$FILES
 # Define list of additional modules
 #
 MODULES=
-MODULES="$MODULES hrtmon/hrtmodule"
 if [ $VERSION == 46.143 -o $VERSION == 46.160 ]; then
   MODULES="$MODULES $DEST/Install3_1_4/Libs/icon.library"
   MODULES="$MODULES $DEST/Install3_1_4/Libs/workbench.library"
@@ -125,33 +126,14 @@ if [ $VERSION == 47.96 ]; then
   # TODO option for old intuition.library?
 fi
 
-if [ -r ehide.device ]; then
-  HAVE_TF1260=1
-else
-  HAVE_TF1260=0
-fi
-
-if [ $AMIGA == A1200 -a $HAVE_TF1260 == 1 ]; then
-  echo "Warning: Will be building with ehide.device."
-  MODULES="$MODULES ehide.device"
-fi
-
-if [ -r ../archives/romdisk.device_rel ]; then
-  echo "Warning: Will be building with romdisk.device."
-  HAVE_ROMDISK=1
-  cp ../archives/romdisk.device_rel $DEST/romdisk.device
-  cp ../archives/romdisk.rodi $DEST
-  MODULES="$MODULES $DEST/romdisk.device $DEST/romdisk.rodi"
-else
-  HAVE_ROMDISK=0
-fi
+# Make Amiga type available to modules
+export AMIGA
 
 # Modules
-
 for MOD in $PWD/../modules/*; do
 	MODULES="$MODULES $($MOD build)"
 done
-#echo $MODULES
+debug "MODULES=$MODULES"
 
 #
 # Updating the main rom

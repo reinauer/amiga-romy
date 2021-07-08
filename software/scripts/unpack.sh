@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 BUILD=$PWD/build
 ARCHIVES=$PWD/archives
 
@@ -44,26 +43,6 @@ sudo umount /mnt
 cd $BUILD/AmigaOS-3.2/
 unpack_adfs
 cd ..
-
-#rm -rf hrtmon
-printf " * Unzipping hrtmodule238 ..."
-lha xf $ARCHIVES/hrtmon238.lha > /dev/null
-printf " ok\n"
-
-#rm -rf vasm
-printf " * Unpacking vasm ..."
-tar xzf $ARCHIVES/vasm.tar.gz
-printf " ok\n"
-
-#rm -rf rnc_propack_source
-printf " * Unpacking rnc_propack_source ..."
-unzip -qqo $ARCHIVES/rnc_propack_source.zip
-#mv rnc_propack_source-master rnc_propack_source
-printf " ok\n"
-
-printf " * Unpacking ehide.device ..."
-tar xzf $ARCHIVES/ehide.tar.gz
-printf " ok\n"
 
 # Modules
 for MOD in $PWD/../modules/*; do
