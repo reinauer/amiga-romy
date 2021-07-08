@@ -25,6 +25,14 @@ then
 fi
 . $TOP/amiga-romy.conf
 
+DEBUG=0
+debug()
+{
+  if [ $DEBUG = 1 ]; then
+    echo $@
+  fi
+}
+
 gather_file()
 {
   FILE=$1

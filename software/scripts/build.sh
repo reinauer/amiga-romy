@@ -219,8 +219,10 @@ test $SIZE = "1mb" && EXTSIZE=512
 test $SIZE = "2mb" && EXTSIZE=1536
 test $SIZE = "4mb" && EXTSIZE=3584
 
+debug "romtool build -o $VERSION/extension.rom -t ext -s $EXTSIZE -f -r $NEWREV $MODULES"
 romtool build -o $VERSION/extension.rom -t ext -s $EXTSIZE -f -r $NEWREV $MODULES
 
+debug "romtool combine $VERSION/$NEWKICK.rom $VERSION/extension.rom -o $VERSION/$NEWKICK.$SIZE.rom"
 romtool combine $VERSION/$NEWKICK.rom $VERSION/extension.rom -o $VERSION/$NEWKICK.$SIZE.rom
 
 #
