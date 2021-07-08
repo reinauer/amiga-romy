@@ -23,6 +23,8 @@ case "$CMD" in
 	lha xq $ARCHIVES/$FILE
 	printf " ok\n"
 	;;
+    compile)
+	;;
     build)
 	# MODULES="$MODULES $( this.sh build )"
 	echo "$MODULE"
