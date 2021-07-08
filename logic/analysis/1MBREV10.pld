@@ -1,0 +1,42 @@
+; JED2EQN -- JEDEC file to Boolean Equations disassembler (Version V063)
+; Copyright (c) National Semiconductor Corporation 1990-1993
+; Disassembled from 1MBREV10.JED. Date: 5-27-121
+
+chip 1MBREV10 GAL22V10
+
+CLK90=1 A22=2 A23=3 A24=4 A25=5 A26=6 A27=7 A28=8 A29=9 A30=10 A31=11 GND=12 
+RW=13 AS=14 ROMEN=15 SPEED=16 REG1=18 A19=19 A20=20 A21=21 STERM=22 
+DSTERM=23 VCC=24 
+
+@ues 524f4d5900000000
+
+equations
+
+
+/DSTERM := DSTERM * /STERM * REG1 * /AS
+    + /DSTERM * STERM * /REG1 * /AS
+DSTERM.oe = /DSTERM * /AS
+/STERM := DSTERM * STERM * REG1
+    + DSTERM * /STERM * /REG1 * /AS
+    + DSTERM * A22 * A23 * A21 * /A24 * /A20 * /A25 * /A19 * /A26 * /REG1 * /A27
+      * /A28 * /SPEED * /A29 * /A30 * /AS * /A31
+STERM.oe = /STERM * /AS
+/A21 = GND
+A21.oe = GND
+/A20 = GND
+A20.oe = GND
+/A19 = GND
+A19.oe = GND
+REG1 := DSTERM * /STERM * /REG1 * /AS
+    + /DSTERM * STERM * /REG1 * /AS
+    + DSTERM * A22 * A23 * A21 * /A24 * /A20 * /A25 * /A19 * /A26 * /REG1 * /A27
+      * /A28 * SPEED * /A29 * /A30 * /AS * /A31
+REG1.oe = VCC
+/SPEED = GND
+SPEED.oe = GND
+/ROMEN = A22 * A23 * A21 * /A24 * /A20 * /A25 * /A19 * /A26 * /A27 * /A28 * /A29
+      * /A30 * /AS * /A31 * RW
+ROMEN.oe = A22 * A23 * A21 * /A24 * /A20 * /A25 * /A19 * /A26 * /A27 * /A28 * /A29
+      * /A30 * /AS * /A31 * RW
+/AS = GND
+AS.oe = GND
