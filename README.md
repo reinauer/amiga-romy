@@ -12,7 +12,7 @@ latest versions of "my" ROMY:
 ## Amiga 4000 Romy
 
 This version was the first one I made. It fits snugly on top of a soldered-down
-Fat Agnus. The GAL is a PLCC-28 ATF22V10C type. This design is the most similar
+Fat Gary. The GAL is a PLCC-28 ATF22V10C type. This design is the most similar
 to the original Romy.
 
 <p float="left">
@@ -22,7 +22,7 @@ to the original Romy.
 
 ## Amiga 3000 Romy
 
-This version is a revamp of the A3000 Romy. On the A3000 Fat Agnus is socketed
+This version is a revamp of the A3000 Romy. On the A3000 Fat Gary is socketed
 using a through-hole PLCC-84 socket. Previous designs have required to unsolder
 the socket, and solder a PCB between a socket and the mainboard, in some
 variants adding a capacitor on the bottom of the mainboard.
@@ -57,7 +57,7 @@ back of the PCB, and a capacitor and GAL on the front.
 the PCB, and solder the cap and GAL on the bottom. Then solder the PLCC plug
 over the components.
 
-This design is barely wider than Fat Agnus itself and adds the same
+This design is barely wider than Fat Gary itself and adds the same
 functionality as the other ROMYs with minimal impact.
 
 # Logic
