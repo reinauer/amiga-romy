@@ -15,8 +15,7 @@ This tool will build larger Kickstart ROMs for (almost) all Amigas.
 # How to build
 
 * You will need romtools from the amitools package installed: https://github.com/cnvogelg/amitools
-* You will also need to install unadf and srecord
-** sudo apt-get install unadf srecord
+* You will also need to install unadf and srecord : sudo apt-get install unadf srecord
 * 3.1.4: Put your Amiga OS files (e.g. AmigaOS-3.1.4-A4000.zip and AmigaOS-3.1.4.1-Update.zip) into your
 $HOME/Downloads folder
 * 3.2: Place an ISO of your 3.2 CD in $HOME/Downloads/AmigaOS3.2CD.iso
