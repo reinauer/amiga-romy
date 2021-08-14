@@ -22,6 +22,11 @@ help:
 
 all: kickstart
 
+require:
+	@echo "Checking the programs required for the build are installed..."
+	@unadf --version >/dev/null 2>&1 || (echo "ERROR: unadf is required."; exit 1)
+	@srec_cat --version >/dev/null 2>&1 || (echo "ERROR: srecord is required."; exit 1) 
+
 kickstart: prep
 	@for TARGET in $(TARGETS) ; do \
 		for SIZE in $(SIZES); do \
@@ -33,7 +38,7 @@ kickstart: prep
 test: prep
 	@scripts/build.sh A4000 46.143
 
-pre:
+pre: require
 	@echo "ROMY 1MB/2MB/4MB Kickstart patcher\n"
 	@echo "Fasten your seatbelts and hold your breath (no, better don't!)\n"
 
