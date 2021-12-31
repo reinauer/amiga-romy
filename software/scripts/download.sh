@@ -19,6 +19,7 @@ gather_file AmigaOS-3.1.4-A4000T.zip
 gather_file AmigaOS-3.1.4.1-Update.zip
 gather_file AmigaOS3.2CD.iso
 gather_file kick_3.1.4.1.zip
+gather_file Update3.2.1.lha
 
 # Other stuff
 echo "Looking for add-on modules"

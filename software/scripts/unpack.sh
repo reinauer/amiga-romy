@@ -26,23 +26,40 @@ if [ -r $ARCHIVES/kick_3.1.4.1.zip ]; then
 fi
 printf " ok\n"
 unpack_adfs
-
 cd ..
 
-printf " * Unpacking AmigaOS 3.2 ..."
-mkdir -p $BUILD/AmigaOS-3.2
-sudo echo "Need root access"
-sudo mount $ARCHIVES/AmigaOS3.2CD.iso /mnt -oloop,ro -t iso9660
-mkdir -p $BUILD/AmigaOS-3.2/ROMs/unsplit_unswapped
-cp /mnt/rom/*.rom $BUILD/AmigaOS-3.2/ROMs/unsplit_unswapped
-cp /mnt/adf/install3.2.adf $BUILD/AmigaOS-3.2/
-cp /mnt/adf/diskdoctor.adf $BUILD/AmigaOS-3.2/
-chmod 644 $BUILD/AmigaOS-3.2/ROMs/unsplit_unswapped/*.rom
-chmod 644 $BUILD/AmigaOS-3.2/*.adf
-sudo umount /mnt
-cd $BUILD/AmigaOS-3.2/
-unpack_adfs
-cd ..
+if [ -r $ARCHIVES/AmigaOS3.2CD.iso ]; then
+  mkdir -p $BUILD/AmigaOS-3.2
+  printf " * Unpacking AmigaOS 3.2 ..."
+  sudo echo "Need root access"
+  sudo mount $ARCHIVES/AmigaOS3.2CD.iso /mnt -oloop,ro -t iso9660
+  mkdir -p $BUILD/AmigaOS-3.2/ROMs/unsplit_unswapped
+  cp /mnt/rom/*.rom $BUILD/AmigaOS-3.2/ROMs/unsplit_unswapped
+  cp /mnt/adf/install3.2.adf $BUILD/AmigaOS-3.2/
+  cp /mnt/adf/diskdoctor.adf $BUILD/AmigaOS-3.2/
+  chmod 644 $BUILD/AmigaOS-3.2/ROMs/unsplit_unswapped/*.rom
+  chmod 644 $BUILD/AmigaOS-3.2/*.adf
+  sudo umount /mnt
+  cd $BUILD/AmigaOS-3.2/
+  unpack_adfs
+  cd ..
+fi
+
+if [ -r $ARCHIVES/Update3.2.1.lha ]; then
+  printf " * Unpacking AmigaOS 3.2.1 Update ..."
+  mkdir -p $BUILD/AmigaOS-3.2.1
+  cd $BUILD/AmigaOS-3.2.1
+  lha xq $ARCHIVES/Update3.2.1.lha
+  mkdir -p $BUILD/AmigaOS-3.2.1/ROMs/unsplit_unswapped
+  cp Update3.2.1/ROMs/*.rom $BUILD/AmigaOS-3.2.1/ROMs/unsplit_unswapped
+  cp Update3.2.1/ADFs/Update3.2.1.adf $BUILD/AmigaOS-3.2.1/
+  cp Update3.2.1/ADFs/DiskDoctor.adf $BUILD/AmigaOS-3.2.1/
+  chmod 644 $BUILD/AmigaOS-3.2.1/ROMs/unsplit_unswapped/*.rom
+  chmod 644 $BUILD/AmigaOS-3.2.1/*.adf
+  printf " ok\n"
+  unpack_adfs
+  cd ..
+fi
 
 # Modules
 for MOD in $PWD/../modules/*; do

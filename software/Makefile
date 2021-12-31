@@ -1,5 +1,5 @@
 TARGETS ?= A500 A1200 A3000 A4000 A4000T
-VERSION ?= 47.96
+VERSION ?= 47.102
 SIZES ?= 1mb 2mb 4mb
 
 OUT:=$(PWD)/build
@@ -25,7 +25,7 @@ all: kickstart
 require:
 	@echo "Checking the programs required for the build are installed..."
 	@unadf --version >/dev/null 2>&1 || (echo "ERROR: unadf is required."; exit 1)
-	@srec_cat --version >/dev/null 2>&1 || (echo "ERROR: srecord is required."; exit 1) 
+	@srec_cat --version >/dev/null 2>&1 || (echo "ERROR: srecord is required."; exit 1)
 
 kickstart: prep
 	@for TARGET in $(TARGETS) ; do \
@@ -67,7 +67,10 @@ all-roms-3.1.4.1:
 all-roms-3.2:
 	$(MAKE) kickstart VERSION=47.96 TARGETS="A500 A1200 A3000 A4000 A4000T" SIZES="1mb 2mb 4mb"
 
-all-roms: all-roms-3.1.4 all-roms-3.1.4.1 all-roms-3.2
+all-roms-3.2.1:
+	$(MAKE) kickstart VERSION=47.102 TARGETS="A500 A1200 A3000 A4000 A4000T" SIZES="1mb 2mb 4mb"
+
+all-roms: all-roms-3.1.4 all-roms-3.1.4.1 all-roms-3.2 all-roms-3.2.1
 
 clean:
 	rm -rf build archives

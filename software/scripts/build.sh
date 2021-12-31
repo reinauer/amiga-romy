@@ -104,6 +104,45 @@ case "$VERSION" in
         ;;
     esac
     ;;
+  47.102)
+    FILES=AmigaOS-3.2.1
+    # KICKDIR isn't used yet for 3.2.1 so the values are wrong
+    case "$AMIGA" in
+      A1200)
+        KICKFILE=${AMIGA}.${VERSION}.rom
+        KICKDIR=${VERSION}_Hyperion\(A1200*\)
+        ;;
+
+      A3000)
+        KICKFILE=${AMIGA}.${VERSION}.rom
+        KICKDIR=${VERSION}_Hyperion\(A3000*\)
+        ;;
+
+      A4000T)
+        KICKFILE=${AMIGA}.${VERSION}.rom
+        KICKDIR=${VERSION}_Hyperion\(A4000T*\)
+        ;;
+
+      CDTV) ;&
+      A500) ;&
+      A600) ;&
+      A1000) ;&
+      A2000) ;&
+      A500/A600/A2000) ;&
+      CDTV/A500/A600/A1000/A2000)
+        AMIGA=CDTV/A500/A600/A1000/A2000
+        KICKFILE=CDTVA500A600A2000.${VERSION}.rom
+        KICKDIR=${VERSION}_Hyperion\(A500-A2000*\)
+        ;;
+
+      A4000) ;&
+      *)
+        AMIGA=A4000
+        KICKFILE=${AMIGA}.${VERSION}.rom
+        KICKDIR=${VERSION}_Hyperion\(A4000*\)
+        ;;
+    esac
+    ;;
 esac
 mkdir -p $VERSION
 
@@ -125,6 +164,19 @@ if [ $VERSION == 47.96 ]; then
   MODULES="$MODULES $DEST/diskdoctor/Devs/trackfile.device"
   # TODO option for old intuition.library?
 fi
+
+if [ $VERSION == 47.102 ]; then
+  WD=$PWD
+  zcat $DEST/Update3.2.1/L/CDFileSystem.Z > $DEST/Update3.2.1/L/CDFileSystem
+  zcat $DEST/Update3.2.1/LIBS/workbench.library.Z > $DEST/Update3.2.1/LIBS/workbench.library
+  zcat $DEST/Update3.2.1/LIBS/icon.library.Z > $DEST/Update3.2.1/LIBS/icon.library
+  MODULES="$MODULES $DEST/Update3.2.1/L/CDFileSystem"
+  MODULES="$MODULES $DEST/Update3.2.1/LIBS/workbench.library"
+  MODULES="$MODULES $DEST/Update3.2.1/LIBS/icon.library"
+  MODULES="$MODULES $DEST/DiskDoctor/Devs/trackfile.device"
+  # TODO option for old intuition.library?
+fi
+
 
 # Make Amiga type available to modules
 export AMIGA
