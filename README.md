@@ -60,6 +60,19 @@ over the components.
 This design is barely wider than Fat Gary itself and adds the same
 functionality as the other ROMYs with minimal impact.
 
+# ROM Extender
+
+<p float="left">
+<img src="collateral/rom_extender.png" alt="ROMY 4MB ROM Extender" width="400" height="266" />
+</p>
+
+The ROM Extender allows the use of 4MB ROM space in an A3000/4000 with the
+Ultimate ROMY r6 or newer versions of the A3000 ROMY. You need to connect the
+additional address pins between the extender and your ROMY.
+
+When assembling, make sure to optimize for height of the adapter as your
+accelerator might have trouble fitting on the A4000.
+
 # Logic
 
 The `logic` directory contains the contents for the GAL.
