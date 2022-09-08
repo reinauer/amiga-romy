@@ -24,7 +24,7 @@ all: kickstart
 
 require:
 	@echo "Checking the programs required for the build are installed..."
-	@unadf --version >/dev/null 2>&1 || (echo "ERROR: unadf is required."; exit 1)
+	@which -s xdftool || (echo "ERROR: xdftool is required."; exit 1)
 	@srec_cat --version >/dev/null 2>&1 || (echo "ERROR: srecord is required."; exit 1)
 
 kickstart: prep

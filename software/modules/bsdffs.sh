@@ -1,4 +1,4 @@
-#!/bin/bash
+#! /usr/bin/env bash
 #
 # BSD FastFileSystem support by Chris Hooper
 # More information:

@@ -1,4 +1,4 @@
-#!/bin/bash
+#! /usr/bin/env bash
 
 # Downloading functions
 
@@ -100,10 +100,9 @@ unpack_adfs()
   for ADF in *.adf
   do
     rm -rf ${ADF%.adf}
-    mkdir  ${ADF%.adf}
     #cd  ${ADF%.adf}
     printf "   * Unpacking ${ADF%.adf} ..."
-    unadf $ADF -d ${ADF%.adf} > /dev/null 2>&1
+    xdftool $ADF unpack .
     printf " ok\n"
     #cd ..
   done

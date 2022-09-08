@@ -6,3 +6,6 @@ sym-lib-table
 gerber
 
 .DS_Store
+
+software/build
+software/archives

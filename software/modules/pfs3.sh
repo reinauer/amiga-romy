@@ -1,4 +1,4 @@
-#!/bin/bash
+#! /usr/bin/env bash
 #
 # Toni Wilen's PFS3 All-In-One
 # More information:

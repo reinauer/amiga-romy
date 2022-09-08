@@ -1,4 +1,4 @@
-#!/bin/bash
+#! /usr/bin/env bash
 
 BUILD=$PWD/build
 cd $BUILD

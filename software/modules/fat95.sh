@@ -1,4 +1,4 @@
-#!/bin/bash
+#! /usr/bin/env bash
 #
 # Microsoft FAT95 Filesystem
 # More information:

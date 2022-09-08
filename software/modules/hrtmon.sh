@@ -1,4 +1,4 @@
-#!/bin/bash
+#! /usr/bin/env bash
 #
 # HRTmon module
 # More information:
@@ -46,6 +46,7 @@ case "$CMD" in
 	  printf "cached.\n"
 	else
 	  cd $BUILD/vasm
+	  perl -pi -e 's,-pedantic,-pedantic -Wno-parentheses -Wno-embedded-directive,' Makefile
 	  make -s CPU=m68k SYNTAX=mot
 	  cd ..
 	  printf "ok.\n"
@@ -56,7 +57,7 @@ case "$CMD" in
 	  printf "cached.\n"
 	else
 	  cd rnc_propack_source-master
-	  make -s 2>/dev/null
+	  make -s CFLAGS="-O3 -flto -Wno-parentheses" 2>/dev/null
 	  cd ..
 	  # if we recompiled rnc64, remove existing files
 	  rm -f hrtmon.data.rnc
@@ -78,7 +79,7 @@ case "$CMD" in
 	  printf "cached.\n"
 	else
 	  cp ../src/hrtmodule.s hrtmon
-	  sed -i s,VERSION,"$VERSION", hrtmon/hrtmodule.s
+	  sed -i '' s,VERSION,"$VERSION", hrtmon/hrtmodule.s
 
 	  vasm/vasmm68k_mot -m68020 -Fhunkexe -o hrtmon/hrtmodule hrtmon/hrtmodule.s > /dev/null
 

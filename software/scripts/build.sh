@@ -1,4 +1,4 @@
-#!/bin/bash
+#! /usr/bin/env bash
 #
 # This script assembles the final 1MB Kickstart image
 #
@@ -158,10 +158,10 @@ if [ $VERSION == 46.143 -o $VERSION == 46.160 ]; then
 fi
 
 if [ $VERSION == 47.96 ]; then
-  MODULES="$MODULES $DEST/install3.2/Libs/icon.library"
-  MODULES="$MODULES $DEST/install3.2/Libs/workbench.library"
-  MODULES="$MODULES $DEST/install3.2/L/CDFileSystem"
-  MODULES="$MODULES $DEST/diskdoctor/Devs/trackfile.device"
+  MODULES="$MODULES $DEST/Install3.2/Libs/icon.library"
+  MODULES="$MODULES $DEST/Install3.2/Libs/workbench.library"
+  MODULES="$MODULES $DEST/Install3.2/L/CDFileSystem"
+  MODULES="$MODULES $DEST/DiskDoctor/Devs/trackfile.device"
   # TODO option for old intuition.library?
 fi
 
