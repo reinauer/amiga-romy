@@ -160,7 +160,7 @@ fi
 if [ $VERSION == 47.96 ]; then
   MODULES="$MODULES $DEST/Install3.2/Libs/icon.library"
   MODULES="$MODULES $DEST/Install3.2/Libs/workbench.library"
-  MODULES="$MODULES $DEST/Install3.2/L/CDFileSystem"
+  #MODULES="$MODULES $DEST/Install3.2/L/CDFileSystem"
   MODULES="$MODULES $DEST/DiskDoctor/Devs/trackfile.device"
   # TODO option for old intuition.library?
 fi
@@ -170,7 +170,7 @@ if [ $VERSION == 47.102 ]; then
   zcat $DEST/Update3.2.1/L/CDFileSystem.Z > $DEST/Update3.2.1/L/CDFileSystem
   zcat $DEST/Update3.2.1/LIBS/workbench.library.Z > $DEST/Update3.2.1/LIBS/workbench.library
   zcat $DEST/Update3.2.1/LIBS/icon.library.Z > $DEST/Update3.2.1/LIBS/icon.library
-  MODULES="$MODULES $DEST/Update3.2.1/L/CDFileSystem"
+  #MODULES="$MODULES $DEST/Update3.2.1/L/CDFileSystem"
   MODULES="$MODULES $DEST/Update3.2.1/LIBS/workbench.library"
   MODULES="$MODULES $DEST/Update3.2.1/LIBS/icon.library"
   MODULES="$MODULES $DEST/DiskDoctor/Devs/trackfile.device"
