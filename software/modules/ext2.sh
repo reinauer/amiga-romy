@@ -10,9 +10,9 @@
 is_enabled FILESYSTEM_EXT2 || exit 0
 
 URL="http://aminet.net/disk/misc/ext2fs_0.41.lha"
-FILE="ext2fs_0.41.lha.lha"
+FILE="ext2fs_0.41.lha"
 MODULE="EXT2FileSystem/AmigaOS/Ext2FileSystem"
-NAME="SmartFileSystem"
+NAME="Ext2FileSystem"
 
 CMD=$1
 case "$CMD" in
