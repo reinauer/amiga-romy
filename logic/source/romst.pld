@@ -1,0 +1,123 @@
+Name     romst ;
+Partno   ROMY ;
+Date     11/17/11 ;
+Revision 10 ;
+Designer Kevin Hoague, Stefan Reinauer ;
+Company  Amiga ;
+Assembly A3000 / A4000 Motherboard;
+Location U1 ;
+Format   j ;
+
+/***************************************************************/
+/* Allowable Target Device Types : */
+/***************************************************************/
+
+Device   g22v10 ;
+
+/** Definitions **/
+
+/* 1MB maps the ROM to 0x00e00000, 4MB to 0x10000000 */
+$DEFINE ROMY_SIZE 'b'1 /* Replaced by Makefile */
+$DEFINE ROMY_REVISION 'b'1 /* Replaced by Makefile */
+
+
+/** Inputs **/
+Pin 1 = CLK90 ;
+
+$IFDEF ROMY_1MB
+Pin [19,20,21] = [A19..21] ;
+$ENDIF
+
+Pin [2..11] = [A22..31] ;
+
+Pin 12 = GND ;
+Pin 24 = VCC ;
+
+Pin 13 = RW ;
+
+Pin 14 = AS ;
+Pin 16 = SPEED ;
+
+/** Outputs **/
+
+Pin 15 = ROMEN ;
+Pin 22 = STERM  ;
+Pin 23 = DSTERM ;
+
+/** Declarations and Intermediate Variable Definitions **/
+$IFDEF ROMY_REV11
+Pin 17 = REG2 ;
+$ENDIF
+Pin 18 = REG1 ;
+
+
+$IFDEF ROMY_1MB
+ADDRESS = !A31 & !A30 & !A29 & !A28 & !A27 & !A26 & !A25 & !A24 & A23 & A22 & A21 & !A20 & !A19;
+$ENDIF
+$IFDEF ROMY_4MB
+ADDRESS = !A31 & !A30 & !A29 & !A28 & !A27 & !A26 & !A25 & A24 & !A23 & !A22;
+$ENDIF
+
+/** Logic Equations **/
+
+/* Configure I/O pins as input. */
+
+$IFDEF ROMY_1MB
+/* A22..A31, AS and SPEED are input only pins */
+!A21     = 'b'0;
+A21.oe   = 'b'0;
+!A20     = 'b'0;
+A20.oe   = 'b'0;
+!A19     = 'b'0;
+A19.oe   = 'b'0;
+$ENDIF
+
+!AS      = 'b'0;
+AS.oe    = 'b'0;
+
+!SPEED   = 'b'0;
+SPEED.oe = 'b'0;
+
+/* The actual ROMY behavior */
+
+$IFDEF ROMY_REV10
+!DSTERM =     DSTERM & !STERM &  REG1 & !AS
+           # !DSTERM &  STERM & !REG1 & !AS;
+$ENDIF
+$IFDEF ROMY_REV11
+!DSTERM  =    DSTERM & STERM &  !REG1 & REG2 & !AS;
+$ENDIF
+DSTERM.oe =  !DSTERM & !AS;
+
+$IFDEF ROMY_REV10
+!STERM  =     DSTERM &  STERM &  REG1
+            # DSTERM & !STERM & !REG1 & !AS
+            # DSTERM & !REG1  & !AS & !SPEED & ADDRESS;
+$ENDIF
+$IFDEF ROMY_REV11
+!STERM  =     DSTERM & STERM &  REG1 & !AS
+            # DSTERM & STERM &  REG1 & !REG2
+            # DSTERM & STERM & !REG2  & !AS & !SPEED & ADDRESS;
+$ENDIF
+STERM.oe = !STERM & !AS;
+
+$IFDEF ROMY_REV10
+REG1  =       DSTERM & !STERM & !REG1 & !AS
+           # !DSTERM &  STERM & !REG1 & !AS
+           #  DSTERM & !REG1 & SPEED & !AS & ADDRESS;
+REG1.oe = 'b'1;
+$ENDIF
+$IFDEF ROMY_REV11
+REG1  =      !DSTERM &  STERM & !REG1 & !REG2 & !AS
+           #  STERM  & !REG1  & !REG2 & SPEED & !AS & ADDRESS;
+REG1.oe = 'b'1;
+
+REG2  =       DSTERM & !STERM & !REG1 & !REG2 & !AS
+           # !DSTERM &  STERM & !REG1 & !REG2 & !AS;
+REG2.oe = 'b'1;
+
+$ENDIF
+
+!ROMEN = RW & !AS & ADDRESS;
+ROMEN.oe = RW & !AS & ADDRESS;
+
