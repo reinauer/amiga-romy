@@ -4,10 +4,24 @@ ROMY is a small add-on PCB that enables Amiga 3000 / 4000 computers to use 1MB (
 
 This project aims at iterating and improving the existing Romy designs.
 
+# Software
+
+Look in the [`software`](software/) directory for a bunch of scripts to create a nice 1MB ROM
+image for you.
+
+There's also a small program to create parametrized PLCC plug footprints for
+KiCAD.
+
+# Logic
+
+The [`logic`](logic/) directory contains the contents for the GAL 22V10. If you want to
+build a ROMY yourself, you will need to program this before soldering your GAL
+down.
+
 # Hardware
 
-In the `hardware` directory you will find the kicad schematics and PCB for the
-latest versions of "my" ROMY:
+In the [`hardware`](hardware/) directory you will find the kicad schematics and PCB for the
+latest versions of ROMY:
 
 ## Amiga 4000 Romy
 
@@ -72,18 +86,6 @@ additional address pins between the extender and your ROMY.
 
 When assembling, make sure to optimize for height of the adapter as your
 accelerator might have trouble fitting on the A4000.
-
-# Logic
-
-The `logic` directory contains the contents for the GAL.
-
-# Software
-
-Look in the `software` directory for a bunch of scripts to create a nice 1MB ROM
-image for you.
-
-There's also a small program to create parametrized PLCC plug footprints for
-KiCAD.
 
 # Credits
 
