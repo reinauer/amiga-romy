@@ -1,0 +1,119 @@
+Name     romst;
+Partno   ROMY;
+Date     11/13/26;
+Revision 12;
+Designer Kevin Hoague, Stefan Reinauer;
+Company  Amiga;
+Assembly A3000 / A4000 Motherboard;
+Location U1;
+Device   g22v10;
+
+/*
+ * ROMY Rev 1.2: maps a second Kickstart ROM into the A3000/A4000 address
+ * space by taking over Fat Gary's ROM enable and terminating the 32-bit
+ * cycle itself. Not yet tested on hardware. Rev 1.0 and 1.1 are built from
+ * romst.pld.
+ *
+ * Pick one size; the Makefile replaces the line below, and without it the
+ * part is 1MB.
+ *
+ *   ROMY_1MB    ROM at 0x00E00000 (512KB window, A31..A19).
+ *   ROMY_4MB    ROM at 0x01000000 (4MB window, A31..A22).
+ *
+ * Compile with: cupl -jm1 romy.pld
+ */
+$DEFINE ROMY_SIZE 'b'1     /* Replaced by Makefile: ROMY_1MB or ROMY_4MB */
+
+$IFNDEF ROMY_1MB
+$IFNDEF ROMY_4MB
+$DEFINE ROMY_1MB 'b'1
+$ENDIF
+$ENDIF
+
+/*
+ * Pins, DIP numbering (the A3000/A4000 boards use the PLCC part). Active-low
+ * signals are declared with '!' and used as asserted below; the polarity
+ * follows the A3000 schematic: Fat Gary's _AS (pin 25), _ROMEN (pin 53) and
+ * _STERM (pin 73).
+ */
+PIN 1 = CLK90;                  /* Gary CLK90, clocks the state registers */
+PIN [2..11] = [A22..31];
+PIN 13 = RW;                    /* Gary R_W, high for read */
+PIN 14 = !AS;                   /* Gary _AS */
+PIN 15 = !ROMEN;                /* Gary _ROMEN; only ever pulled low */
+PIN 16 = !SPEED;                /* JP1: low selects the fast termination */
+PIN 22 = !STERM;                /* JP2 routes STERM or DSTERM to Gary _STERM */
+PIN 23 = !DSTERM;
+PIN 18 = REG1;                  /* buried state registers */
+PIN 17 = REG2;
+$IFDEF ROMY_1MB
+PIN [19..21] = [A19..21];
+$ENDIF
+
+/* The ROM window. */
+$IFDEF ROMY_1MB
+ROMSEL = !A31 & !A30 & !A29 & !A28 & !A27 & !A26 & !A25 & !A24 & A23 & A22 & A21 & !A20 & !A19;
+$ENDIF
+$IFDEF ROMY_4MB
+ROMSEL = !A31 & !A30 & !A29 & !A28 & !A27 & !A26 & !A25 & A24 & !A23 & !A22;
+$ENDIF
+
+/*
+ * Pins used only as inputs: their outputs stay off. The values set the
+ * macrocells' polarity bits as in the original parts.
+ */
+AS = 'b'0;
+AS.oe = 'b'0;
+SPEED = 'b'0;
+SPEED.oe = 'b'0;
+$IFDEF ROMY_1MB
+!A21 = 'b'0;
+A21.oe = 'b'0;
+!A20 = 'b'0;
+A20.oe = 'b'0;
+!A19 = 'b'0;
+A19.oe = 'b'0;
+$ENDIF
+
+/* Read cycles in the ROM window enable the ROM in place of Gary's. */
+ROMEN = ROMSEL & AS & RW;
+ROMEN.oe = ROMSEL & AS & RW;
+
+/*
+ * Cycle termination. STERM and DSTERM are driven only while asserted and AS
+ * is asserted, so they only ever pull Gary's _STERM low. With _SPEED high
+ * (JP1 as shipped) STERM comes on the second CLK90 edge of the cycle and
+ * DSTERM on the fourth; with _SPEED low on the first and third, the same
+ * edges as Rev 1.0 and 1.1.
+ *
+ * Each cycle is terminated exactly once. Rev 1.0 holds a termination for two
+ * clocks, so a bus master that keeps AS a clock longer than the 68030, or
+ * starts its next cycle before CLK90 sees AS negated, gets its next cycle
+ * terminated too. Rev 1.1 shortens the pulse, but like Rev 1.0 it starts
+ * over while AS stays asserted, and a pulse of one CLK90 clock can end
+ * before a master whose clock lags CLK90 has held it long enough (the NCR
+ * 53C710 needs 7ns past its sampling edge). Rev 1.2:
+ *
+ *  - counts the CLK90 edges of the cycle in REG2:REG1, stopping at 3;
+ *  - asserts STERM or DSTERM on its edge and holds it until AS is negated,
+ *    so the hold time is the master's own;
+ *  - clears everything as soon as AS is negated (the 22V10's asynchronous
+ *    reset), so no state survives into the next cycle, however short AS
+ *    stays negated.
+ */
+REG1.oe = 'b'1;
+REG2.oe = 'b'1;
+STERM.oe = STERM & AS;
+DSTERM.oe = DSTERM & AS;
+[STERM, DSTERM, REG1, REG2].ar = !AS;
+[STERM, DSTERM, REG1, REG2].sp = 'b'0;
+REG1.d = !REG2 & !REG1 & ROMSEL & AS        /* count: 0 -> 1 in the window */
+    # REG2 & AS;                            /* 2 -> 3, 3 -> 3 */
+REG2.d = REG1 & AS                          /* 1 -> 2, 3 -> 3 */
+    # REG2 & AS;                            /* 2 -> 3 */
+STERM.d = !REG2 & !REG1 & ROMSEL & SPEED & AS   /* fast: first edge */
+    # !REG2 & REG1 & !SPEED & AS                /* second edge */
+    # STERM & AS;                               /* held until AS negates */
+DSTERM.d = REG2 & !REG1 & SPEED & AS            /* fast: third edge */
+    # REG2 & REG1 & !SPEED & AS                 /* fourth edge */
+    # DSTERM & AS;                              /* held until AS negates */
