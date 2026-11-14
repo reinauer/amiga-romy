@@ -1,0 +1,81 @@
+Name     romst;
+Partno   ROMY;
+Date     12/8/15;
+Revision 11;
+Designer Kevin Hoague, Stefan Reinauer;
+Company  Amiga;
+Assembly A3000 / A4000 Motherboard;
+Location U1;
+Device   g22v10;
+
+/*
+ * Simulation of romy.pld built with ROMY_REV10 and ROMY_4MB: the ROM
+ * window is 0x01000000-0x013FFFFF. The expected values come from the
+ * original part in RomyRev10.zip.
+ *
+ * Values are asserted levels, as in romy.pld: AS 1 is Gary's _AS low,
+ * SPEED 1 is _SPEED low, and H on ROMEN, STERM or DSTERM means the pin pulls
+ * low; Z means it lets go. Every C vector is one rising edge of CLK90. Each
+ * bus cycle holds _AS until the termination the board's JP2 selects, then
+ * negates it for a clock.
+ */
+ORDER: CLK90, %1, A31, A30, A29, A28, A27, A26, A25, A24, A23, A22, %2, RW, %1, AS, %1, SPEED, %3, ROMEN, %1, STERM, %1, DSTERM, %2, REG1;
+
+VECTORS:
+/* Power-up: the 22V10 clears its registers; nothing is driven. */
+0 0000000100  1 0 0   Z Z Z  L
+C 0000000100  1 0 0   Z Z Z  L
+
+$MSG "Read 0x01000000, _SPEED high (JP1 as shipped), ended by DSTERM (JP2 as shipped)";
+C 0000000100  1 1 0   H Z Z  H
+C 0000000100  1 1 0   H H Z  L
+C 0000000100  1 1 0   H H Z  H
+C 0000000100  1 1 0   H Z H  L
+C 0000000100  1 0 0   Z Z Z  L
+
+$MSG "Read 0x01000004, _SPEED high, ended by STERM";
+C 0000000100  1 1 0   H Z Z  H
+C 0000000100  1 1 0   H H Z  L
+C 0000000100  1 0 0   Z Z Z  L
+
+$MSG "Read 0x01000008, _SPEED low, ended by STERM";
+C 0000000100  1 1 1   H H Z  L
+C 0000000100  1 0 1   Z Z Z  L
+
+$MSG "Read 0x0100000C, _SPEED low, ended by DSTERM";
+C 0000000100  1 1 1   H H Z  L
+C 0000000100  1 1 1   H H Z  H
+C 0000000100  1 1 1   H Z H  L
+C 0000000100  1 0 1   Z Z Z  L
+
+$MSG "Write 0x01000010: the ROM stays off, the cycle is still terminated";
+C 0000000100  0 1 0   Z Z Z  H
+C 0000000100  0 1 0   Z H Z  L
+C 0000000100  0 1 0   Z H Z  H
+C 0000000100  0 1 0   Z Z H  L
+C 0000000100  0 0 0   Z Z Z  L
+
+$MSG "Read 0x013FFFFC, the last longword of the window";
+C 0000000100  1 1 0   H Z Z  H
+C 0000000100  1 1 0   H H Z  L
+C 0000000100  1 1 0   H H Z  H
+C 0000000100  1 1 0   H Z H  L
+C 0000000100  1 0 0   Z Z Z  L
+
+$MSG "Read 0x01400000, just above the window: ROMY stays off";
+C 0000000101  1 1 0   Z Z Z  L
+C 0000000101  1 1 0   Z Z Z  L
+C 0000000101  1 1 0   Z Z Z  L
+C 0000000101  1 0 0   Z Z Z  L
+
+$MSG "Read 0x00FFFFFC, just below the window: ROMY stays off";
+C 0000000011  1 1 0   Z Z Z  L
+C 0000000011  1 1 0   Z Z Z  L
+C 0000000011  1 1 0   Z Z Z  L
+C 0000000011  1 0 0   Z Z Z  L
+
+$MSG "Read 0x00F80000, the Kickstart ROM: Gary's, ROMY stays off";
+C 0000000011  1 1 0   Z Z Z  L
+C 0000000011  1 1 0   Z Z Z  L
+C 0000000011  1 1 0   Z Z Z  L
+C 0000000011  1 0 0   Z Z Z  L
