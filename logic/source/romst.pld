@@ -1,5 +1,5 @@
 Name     romst ;
-Partno   ROMY ;
+Partno   ROMY;
 Date     11/17/11 ;
 Revision 10 ;
 Designer Kevin Hoague, Stefan Reinauer ;
@@ -13,6 +13,13 @@ Format   j ;
 /***************************************************************/
 
 Device   g22v10 ;
+
+/*
+ * DSTERM, STERM, REG1 and REG2 are registers clocked by CLK90, as in the
+ * original ROMY JEDs (RomyRev10.zip, RomyRev11.zip).  romst.pld writes
+ * them as combinational feedback loops instead, which is not the same
+ * circuit: the loops have no clock and do not settle.
+ */
 
 /** Definitions **/
 
@@ -81,38 +88,38 @@ SPEED.oe = 'b'0;
 /* The actual ROMY behavior */
 
 $IFDEF ROMY_REV10
-!DSTERM =     DSTERM & !STERM &  REG1 & !AS
+!DSTERM.d =   DSTERM & !STERM &  REG1 & !AS
            # !DSTERM &  STERM & !REG1 & !AS;
 $ENDIF
 $IFDEF ROMY_REV11
-!DSTERM  =    DSTERM & STERM &  !REG1 & REG2 & !AS;
+!DSTERM.d =   DSTERM & STERM &  !REG1 & REG2 & !AS;
 $ENDIF
 DSTERM.oe =  !DSTERM & !AS;
 
 $IFDEF ROMY_REV10
-!STERM  =     DSTERM &  STERM &  REG1
+!STERM.d =    DSTERM &  STERM &  REG1
             # DSTERM & !STERM & !REG1 & !AS
             # DSTERM & !REG1  & !AS & !SPEED & ADDRESS;
 $ENDIF
 $IFDEF ROMY_REV11
-!STERM  =     DSTERM & STERM &  REG1 & !AS
+!STERM.d =    DSTERM & STERM &  REG1 & !AS
             # DSTERM & STERM &  REG1 & !REG2
             # DSTERM & STERM & !REG2  & !AS & !SPEED & ADDRESS;
 $ENDIF
 STERM.oe = !STERM & !AS;
 
 $IFDEF ROMY_REV10
-REG1  =       DSTERM & !STERM & !REG1 & !AS
+REG1.d =      DSTERM & !STERM & !REG1 & !AS
            # !DSTERM &  STERM & !REG1 & !AS
            #  DSTERM & !REG1 & SPEED & !AS & ADDRESS;
 REG1.oe = 'b'1;
 $ENDIF
 $IFDEF ROMY_REV11
-REG1  =      !DSTERM &  STERM & !REG1 & !REG2 & !AS
+REG1.d =     !DSTERM &  STERM & !REG1 & !REG2 & !AS
            #  STERM  & !REG1  & !REG2 & SPEED & !AS & ADDRESS;
 REG1.oe = 'b'1;
 
-REG2  =       DSTERM & !STERM & !REG1 & !REG2 & !AS
+REG2.d =      DSTERM & !STERM & !REG1 & !REG2 & !AS
            # !DSTERM &  STERM & !REG1 & !REG2 & !AS;
 REG2.oe = 'b'1;
 
